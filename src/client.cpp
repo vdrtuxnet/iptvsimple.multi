@@ -30,6 +30,12 @@ using namespace ADDON;
 
 #ifdef TARGET_WINDOWS
 #define snprintf _snprintf
+#ifdef CreateDirectory
+#undef CreateDirectory
+#endif
+#ifdef DeleteFile
+#undef DeleteFile
+#endif
 #endif
 
 bool           m_bCreated       = false;
@@ -112,11 +118,7 @@ ADDON_STATUS ADDON_Create(void* hdl, void* props)
 
   if (!XBMC->DirectoryExists(g_strUserPath.c_str()))
   {
-#ifdef TARGET_WINDOWS
-    CreateDirectory(g_strUserPath.c_str(), NULL);
-#else
     XBMC->CreateDirectory(g_strUserPath.c_str());
-#endif
   }
 
   ADDON_ReadSettings();
@@ -152,11 +154,7 @@ ADDON_STATUS ADDON_SetSetting(const char *settingName, const void *settingValue)
 
     if (XBMC->FileExists(strFile.c_str(), false))
     {
-#ifdef TARGET_WINDOWS
-      DeleteFile(strFile.c_str());
-#else
       XBMC->DeleteFile(strFile.c_str());
-#endif
     }
     else
     {
@@ -171,11 +169,7 @@ ADDON_STATUS ADDON_SetSetting(const char *settingName, const void *settingValue)
 
     if (XBMC->FileExists(strFile.c_str(), false))
     {
-#ifdef TARGET_WINDOWS
-      DeleteFile(strFile.c_str());
-#else
       XBMC->DeleteFile(strFile.c_str());
-#endif
     }
     else
     {
